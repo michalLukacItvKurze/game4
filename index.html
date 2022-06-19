@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    
+    <title>AMONG US</title>
+
+    <style>
+        /* pozadie webu */
+        body{
+            background-color: black;
+        }
+        /* hracia plocha*/
+        #board{
+            position: relative;
+            width: 900px;
+            height: 600px;
+            margin:40px auto;
+            border: 4px solid white;
+            border-radius: 5px;
+            background: url('img/background.jpg');
+            background-size: 150% 100%;
+            overflow: hidden;
+        }
+        /* pocet strelenych */
+        #count{
+            position: absolute;
+            color: white;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 40px;
+            padding-top: 30px;
+            left: 640px;
+        }
+        /* zivoty */
+        #life {
+            width: 240px;
+            height: 30px;
+            background-color: rgb(255, 255, 255);
+            border: 4px solid white;
+            border-radius: 5px;
+            position: absolute;
+            top: 30px;
+            left: 70px;
+            align-items: center;
+        }
+        #life1,#life2,#life3,#life4{
+            width: 57px;
+            height: 30px;
+            background: rgb(106, 236, 13);
+            display: inline-flex;
+            border-radius: 5px;
+            margin: 0;
+            padding: 0;
+        }
+        /* panacik */
+        #posAndGun{
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            left: 0;
+            bottom: 0px;
+            
+        }
+        #posRight {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: url('img/among.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            
+        }
+        #posRunRight {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: url('img/amongRun.gif');
+            background-size:contain;
+            background-repeat:no-repeat;
+        }
+        #posLeft {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: url('img/among.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            transform: scaleX(-1);
+        }
+        #posRunLeft {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: url('img/amongRun.gif');
+            background-size:contain;
+            background-repeat:no-repeat;
+            transform: scaleX(-1);
+        }
+
+        /* planety */
+        .planets{
+            position: absolute;
+            top: 120px;
+            left: 100px;
+            width: 150px;
+            height: 150px;
+            background: url('img/greenPlanet.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .planets2{
+            position: absolute;
+            top: 70px;
+            left: 500px;
+            width: 450px;
+            height: 450px;
+            background: url('img/ringPlanet.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        /*zbran*/
+        #gunLeft{
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: url('img/gun.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            transform: scaleX(-1);
+            left: 10px;
+            bottom: 40px;
+        }
+        #gunRight{
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: url('img/gun.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            left: 50px;
+            bottom: 40px;
+      
+        }
+        /* plamen batoh */
+        #rocketBag{
+            position: absolute;
+            display: none;
+            left: 40px;
+            bottom: 155px;
+        }
+        #flame{
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: url('img/flame.gif');
+            background-size:contain;
+            background-repeat:no-repeat;
+            left: -10px;
+            bottom: -80px;
+        }
+        #rocketBagCyan{
+            position: absolute;
+            width: 15px;
+            height: 40px;
+            background: rgb(0, 151, 189);
+            border: 3px solid black;
+            border-radius: 5px;
+            background-size:contain;
+            background-repeat:no-repeat;
+            /*left: 40px;
+            bottom: 108px;*/
+        }
+        
+        /* Nepriatelia*/
+        #enemy1{
+            background: url('img/enemy1.gif');
+            background-size:contain;
+            background-repeat:no-repeat;
+            position: absolute;
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            left: 400px;
+            bottom: 40px;
+            z-index: 3;
+        }
+        #enemy2{
+            background: url('img/enemy2.gif');
+            background-size:contain;
+            background-repeat:no-repeat;
+            position: absolute;
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            left: 550px;
+            bottom: 60px;
+            z-index: 2;
+        }
+        #enemy3{
+            background: url('img/enemy3.gif');
+            background-size:contain;
+            background-repeat:no-repeat;
+            position: absolute;
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            left: 750px;
+            bottom: 10px;
+            z-index: 3;
+        }
+        /* strely */
+        #shot1{
+            background: url('img/shot1.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            bottom: 70px;
+            animation: rotation 2s infinite linear;
+            z-index: 2;
+        }
+        
+        #shot2,#shot4{
+            background: url('img/shot2.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            bottom: 50px;
+            animation: rotation 2s infinite linear;
+            z-index: 2;
+        }
+        #shot3{
+            background: url('img/shot3.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            bottom: 90px;
+            animation: rotation 2s infinite linear;
+            z-index: 2;
+        }
+        #shot5{
+            background: url('img/shot5.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            bottom: 60px;
+            animation: rotation 2s infinite linear;
+            z-index: 2;
+        }
+        @keyframes rotation {
+            from {
+                transform: rotate(359deg);
+        }
+            to {
+                transform: rotate(0deg);
+        }
+        }
+        
+        .bullet{
+            position: absolute;
+            background: url('img/bullet.png');
+            background-size:contain;
+            background-repeat:no-repeat;
+            width: 40px;
+            height: 40px;
+            bottom: 90px;
+            left: 150px;
+        
+        }
+
+     </style>
+
+</head>
+<body>
+    <div id="board">
+        <div class="planets"></div>
+        <div class="planets2"></div>
+        <div id="posAndGun">
+            <div id="posSides">
+                <div id="posRight"></div>
+            </div>
+            <div id="gunSides">
+                <div id="gunRight"></div>
+            </div>
+            <div id="rocketBag">
+                <div id="flame"></div>
+                <div id="rocketBagCyan"></div>
+            </div>
+            
+            
+        </div>
+        <div id="enemies">
+            <div id="enemy1"></div>
+            <div id="enemy2"></div>
+            <div id="enemy3"></div>
+        </div>
+        <div id="enemyShots">
+            <div id="shot1"></div>
+            <div id="shot2"></div>
+            <div id="shot3"></div>
+            <div id="shot4"></div>
+            <div id="shot5"></div>
+        </div>
+        <div id="count">SCORE: 0</div>
+        <div id="life">
+            <div id="life1"></div>
+            <div id="life2"></div>
+            <div id="life3"></div>
+            <div id="life4"></div>
+        </div>
+        <div id="bullets"></div>
+    </div>
+    <script src="srcript.js" defer></script>
+</body>
+</html>
